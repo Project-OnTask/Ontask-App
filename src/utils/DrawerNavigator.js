@@ -6,7 +6,7 @@ import Dashboard from '../views/Dashboard';
 import Tasks from '../views/Tasks';
 import Groups from '../views/Groups/Groups';
 import Group from '../views/Group/Group';
-import Profile from '../views/Profile';
+import Profile from '../views/Profile/Profile';
 import Settings from '../views/Settings';
 
 const MyDrawerNavigator = createDrawerNavigator(

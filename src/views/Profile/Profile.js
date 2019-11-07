@@ -4,7 +4,11 @@ import Axios from 'axios';
 import FIcon from 'react-native-vector-icons/FontAwesome5'
 import ZIcon from 'react-native-vector-icons/Zocial'
 import MIcon from 'react-native-vector-icons/MaterialIcons'
-import Header from '../components/Header';
+import EditBioModal from './components/EditBioModal'
+import EditLinksModal from './components/EditLinksModal'
+import EditEducationModal from './components/EditEducationModal'
+import EditWorkModal from './components/EditWorkModal'
+
 import {Card} from 'react-native-elements';
 
 const linkItems = [
@@ -32,12 +36,16 @@ const linkItems = [
 
 const Profile = props => {
   const [userData, setUserData] = useState([]);
+  const [isEditable,setEditable] = useState(false)
+  const [trigger,setTrigger] = useState(false)
   const [userId, setUserId] = useState(null);
-  const [isBioEditable, setBioEditable] = useState(false);
 
   useEffect(() => {
     Axios.get('/auth/user/me')
       .then(res => {
+        if(props.navigation.getParam("id") === null || res.data.id === props.navigation.getParam("id")){
+          setEditable(true)
+        }
         Axios.get('/users/' + res.data.id)
           .then(res => {
             setUserData(res.data);
@@ -45,10 +53,10 @@ const Profile = props => {
           .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
-  }, [userId]);
+  }, [userId,trigger]);
 
-  function toggleBioEditable(){
-    setBioEditable(!isBioEditable)
+  function triggerUpdate(){
+    setTrigger(!trigger)
   }
 
   return (
@@ -56,7 +64,7 @@ const Profile = props => {
       {/* <Header navigation={props.navigation} name="Profile" /> */}
       <ScrollView>
         {/* Profile Header */}
-      <View style={{marginTop: 0}}>
+      <View style={{marginTop: 0,position: "absolute",right: 0,left: 0,elevation: 6}}>
         <View
           style={{
             width: '100%',
@@ -86,19 +94,27 @@ const Profile = props => {
         </View>
       </View>
 
+<View style={{marginTop: 90}}>
       {/* Bio */}
       <Card titleStyle={{textAlign: 'left'}} title={
-        <View style={{display: "flex",flexDirection: "row"}}>
-          <Text>About me</Text>
+        <View style={{marginBottom: 10,display: "flex",flexDirection: "row"}}>
+          <Text style={{fontWeight: "bold"}}>About me</Text>
           <View style={{flexGrow: 1}} />
-          <FIcon name="edit" onPress={toggleBioEditable}/> 
+        <EditBioModal triggerUpdate={triggerUpdate} display={isEditable}/>
         </View>
       }>
         <Text style={{marginBottom: 10}}>
           {userData.bio}
         </Text>
       </Card>
-      <Card>
+      
+      <Card title={
+        <View style={{display: "flex",flexDirection: "row"}}>
+          <Text></Text>
+          <View style={{flexGrow: 1}} />
+        <EditLinksModal triggerUpdate={triggerUpdate} display={isEditable}/>
+        </View>
+      }>
   {
     linkItems.map((item, i) => {
       return (
@@ -112,20 +128,28 @@ const Profile = props => {
 </Card>
 
 {/* Work */}
-<Card>
-    <View style={{display: "flex",flexDirection: "row"}}>
+<Card title={
+        <View style={{display: "flex",flexDirection: "row"}}>
         <MIcon name="work" size={15} style={{marginRight: "2%"}}/>
         <Text>Work</Text>
-    </View>
+          <View style={{flexGrow: 1}} />
+          <EditWorkModal display={isEditable}/> 
+        </View>
+      }>
 </Card>
 
 {/* Education */}
-<Card>
-    <View style={{display: "flex",flexDirection: "row"}}>
+<Card title={
+        <View style={{display: "flex",flexDirection: "row"}}>
         <FIcon name="graduation-cap" size={15} style={{marginRight: "2%"}}/>
         <Text>Education</Text>
-    </View>
+          <View style={{flexGrow: 1}} />
+    <EditEducationModal display={isEditable}/>
+        </View>
+      }>
+
 </Card>
+</View>
       </ScrollView>
     </>
   );
