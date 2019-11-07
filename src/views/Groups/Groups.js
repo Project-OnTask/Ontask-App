@@ -89,9 +89,7 @@ const Groups = props => {
       <Header navigation={props.navigation} name="Groups" />
       <View style={{marginTop: 50}}>
         <View style={screenStyles.topic}>
-          <Text h4 style={{paddingLeft: 0,paddingLeft: '2%',paddingBottom: '2%'}}>
-            Groups
-          </Text>
+          
           <View style={{flexGrow: 1}} />
             <NewGroupModal triggerUpdate={triggerUpdate} navigation={props.navigation}/>
         </View>
@@ -104,7 +102,7 @@ const Groups = props => {
               lastActivity={group.lastActivity}  
             navigation={props.navigation} />
           ) 
-        }): <Text style={{textAlign: "center"}}>No groups. Create a new group</Text>}
+        }): <Text style={{color: "gray",padding: "2%",textAlign: "center"}}>No groups. Create a new group</Text>}
       </View>
     </View>
   );
