@@ -1,199 +1,270 @@
-import React,{ useEffect} from 'react';
-import {View, StyleSheet,FlatList,Dimensions,ScrollView,SafeAreaView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import Header from '../components/Header';
 import {Text, List, ListItem} from 'react-native-elements';
-import * as Progress from 'react-native-progress';
+import ProgressCircle from 'react-native-progress-circle';
+import Axios from 'axios';
 import {
-    LineChart,
-    BarChart,
-    PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart
-  } from "react-native-chart-kit";
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from 'react-native-chart-kit';
 
 const Dashboard = props => {
-  let list = [
-    {
-      name: 'Total',
-      avatar_url:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-      subtitle: 'Vice President',
-    },
-    {
-      name: 'Completed',
-      avatar_url:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-      subtitle: 'Vice Chairman',
-    },
-    {
-        name: 'In progress',
-        avatar_url:
-          'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Vice Chairman',
-      },
-      {
-        name: 'Overdue',
-        avatar_url:
-          'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Vice Chairman',
-      },
-  ];
+  const [totalCount, setTotalCount] = useState(0);
+  const [pieChartData,setPieChartData] = useState([])
+  const [completedCount, setCompletedCount] = useState(0);
+  const [overdueCount, setOverdueCount] = useState(0);
+  const [groupCount, setGroupCount] = useState(0);
+  const [groups, setGroups] = useState(0);
 
-  useEffect(() => { 
-    props.navigation.setParams({ 
-        headerMode: 'none'
-    }) 
-}, [])
-const taskdata = [
+  useEffect(() => {
+    props.navigation.setParams({
+      headerMode: 'none',
+    });
+
+    Axios.get('/auth/user/me')
+      .then(res => {
+        Axios.get('/user/' + res.data.id + '/tasks/count')
+          .then(res => setTotalCount(res.data))
+          .catch(err => console.log(err));
+
+        Axios.get('/user/' + res.data.id + '/tasks/completed/count')
+          .then(res => setCompletedCount(res.data))
+          .catch(err => console.log(err));
+
+        Axios.get('/user/' + res.data.id + '/tasks/overdue/count')
+          .then(res => setOverdueCount(res.data))
+          .catch(err => console.log(err));
+
+        Axios.get('/user/' + res.data.id + '/groups/count').then(res =>
+          setGroupCount(res.data),
+        );
+
+        Axios.get('/user/' + res.data.id + '/groups').then(res =>
+          setGroups(res.data),
+        );
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  const styles = StyleSheet.create({
+    container: {
+      marginLeft: '4%',
+      marginRight: '4%',
+    },
+    summary: {display: 'flex', flexDirection: 'row', marginBottom: '3%'},
+    groupOverview: {display: 'flex', justifyContent: 'center'},
+  });
+
+  const data = [
     {
-      name: "Seoul",
-      population: 21500000,
-      color: "rgba(131, 167, 234, 1)",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
+      name: 'Seoul',
+      count: 21500000,
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
     },
     {
-      name: "Toronto",
-      population: 2800000,
-      color: "#F00",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
+      name: 'Toronto',
+      count: 2800000,
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
     },
     {
-      name: "Beijing",
-      population: 527612,
-      color: "red",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
+      name: 'Beijing',
+      count: 527612,
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
     },
     {
-      name: "New York",
-      population: 8538000,
-      color: "#ffffff",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
+      name: 'New York',
+      count: 8538000,
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
     },
     {
-      name: "Moscow",
-      population: 11920000,
-      color: "rgb(0, 0, 255)",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    }
+      name: 'Moscow',
+      count: 11920000,
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
   ];
 
   return (
-    <SafeAreaView>
-        <Header navigation={props.navigation} name="OnTask"/>
-        <ScrollView style={{marginTop: 50}}>
-      <Text h3 style={{marginLeft: "4%",marginBottom: "5%" }}>Dashboard</Text>
-      <View style={styles.summary}>
+    <>
+      <Header navigation={props.navigation} name="OnTask" />
+      <ScrollView style={{marginTop: 55}}>
+        <View style={styles.container}>
+          <Text h4 style={{marginBottom: '3%'}}>
+            Dashboard
+          </Text>
 
-        <Progress.Circle
-          size={100}
-          style={{padding: "2%"}}
-          progress={0.6}
-          thickness={7}
-          animated={false}
-        />
-        <View style={{flexGrow: 1}}></View>
-        <FlatList
-        style={{marginLeft: "2%"}}
-        data={list}
-        renderItem={({ item }) => <Text>
-            {item.name}
-        </Text>}
-        keyExtractor={item => item.id}
-      />
-      </View>
-      
+          {/* Task summary goes here */}
+          <View style={styles.summary}>
+            <View
+              style={{
+                alignItems: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                maxWidth: '50%',
+              }}>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginBottom: '2%',
+                }}>
+                <Text style={{width: 85, fontSize: 16, color: 'gray'}}>
+                  Total{' '}
+                </Text>
+                <Text style={{fontSize: 16, color: 'gray'}}>{totalCount}</Text>
+              </View>
 
-      <View style={{marginTop: "5%" }}>
-  <Text h4 style={{marginLeft: "4%",marginBottom: "5%" }}>This year</Text>
-  <LineChart
-    data={{
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Sep","Oct","Nov","Dec"],
-      datasets: [
-        {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
-        }
-      ]
-    }}
-    width={Dimensions.get("window").width} // from react-native
-    height={200}
-    yAxisLabel={"%"}
-    chartConfig={{
-      backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa726",
-      decimalPlaces: 2, // optional, defaults to 2dp
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      style: {
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginBottom: '2%',
+                }}>
+                <Text style={{width: 85, fontSize: 16, color: 'gray'}}>
+                  Completed{' '}
+                </Text>
+                <Text style={{fontSize: 16, color: 'gray'}}>
+                  {completedCount}
+                </Text>
+              </View>
 
-      },
-      propsForDots: {
-        r: "6",
-        strokeWidth: "2",
-        stroke: "#ffa726"
-      }
-    }}
-    bezier
-    style={{
-      marginVertical: 8,
-      //borderRadius: 16
-    }}
-  />
-</View>
-        
-      <View>
-          <Text h4 style={{marginLeft: "4%",marginBottom: "2%" }}>Tasks overview</Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginBottom: '2%',
+                }}>
+                <Text style={{width: 85, fontSize: 16, color: 'gray'}}>
+                  Overdue{' '}
+                </Text>
+                <Text style={{fontSize: 16, color: 'gray'}}>
+                  {overdueCount}
+                </Text>
+              </View>
+            </View>
+            <View>
+              <View style={{marginLeft: '36%'}}>
+                <ProgressCircle
+                  percent={
+                    totalCount === 0 ? 0 : (completedCount / totalCount) * 100
+                  }
+                  radius={55}
+                  borderWidth={8}
+                  color="#08A522"
+                  shadowColor="#999"
+                  bgColor="#fff">
+                  <Text style={{fontSize: 18}}>
+                    {totalCount === 0
+                      ? '0%'
+                      : `${(completedCount / totalCount) * 100}%`}
+                  </Text>
+                </ProgressCircle>
+              </View>
+            </View>
+          </View>
+
+          {/* Percentage of assigned tasks of each group */}
+          <View style={styles.groupOverview}></View>
           <PieChart
-  data={taskdata}
-  width={Dimensions.get("window").width}
-  height={220}
-  chartConfig={{
-    backgroundColor: "#e26a00",
-    backgroundGradientFrom: "#fb8c00",
-    backgroundGradientTo: "#ffa726",
-    decimalPlaces: 2, // optional, defaults to 2dp
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
+            data={data}
+            width={Dimensions.get('window').width}
+            height={150}
+            paddingLeft="-20"
+            chartConfig={{
+              backgroundGradientFrom: '#1E2923',
+              backgroundGradientFromOpacity: 0,
+              backgroundGradientTo: '#08130D',
+              backgroundGradientToOpacity: 0.5,
+              color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+              strokeWidth: 2,
+              barPercentage: 0.5,
+            }}
+            accessor="count"
+            backgroundColor="transparent"
+          />
 
-    }
-  }}
-  accessor="population"
-  backgroundColor="transparent"
-  paddingLeft="15"
-  absolute
-/>
-      </View>
+          <View>
+            <Text h5 style={{fontWeight: 'bold', fontSize: 18}}>
+              This year so far
+            </Text>
+            <ScrollView horizontal={true}>
+              <LineChart
+                data={{
+                  labels: [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                  ],
+                  datasets: [
+                    {
+                      data: [
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                      ],
+                    },
+                  ],
+                }}
+                width={Dimensions.get('window').width} // from react-native
+                height={220}
+                yAxisLabel={'$'}
+                yAxisSuffix={'k'}
+                chartConfig={{
+                  backgroundColor: '#e26a00',
+                  backgroundGradientFrom: '#fb8c00',
+                  backgroundGradientTo: '#ffa726',
+                  decimalPlaces: 2, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) =>
+                    `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForDots: {
+                    r: '6',
+                    strokeWidth: '2',
+                    stroke: '#ffa726',
+                  },
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16,
+                }}
+              />
+            </ScrollView>
+          </View>
+        </View>
       </ScrollView>
-    </SafeAreaView>
-   
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  summary: {
-    display: 'flex',
-    flexDirection: 'row',
-},
-});
 
 export default Dashboard;
