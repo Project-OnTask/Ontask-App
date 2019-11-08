@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,Text,Alert,ActivityIndicator } from 'react-native' 
+import { View,Text,Alert,ToastAndroid,ActivityIndicator } from 'react-native' 
 import AsyncStorage from "@react-native-community/async-storage"
 import axios from 'axios'
 
@@ -23,7 +23,7 @@ class CheckAuth extends Component {
                  });
                 }
               ).catch(async err => {
-                Alert.alert("error")
+                ToastAndroid.show('Error occured!', ToastAndroid.SHORT);
               })
         }
         else{

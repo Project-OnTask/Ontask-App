@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
     closeIcon: {
         textAlign: "right",
         padding: "2%",
-        marginTop: "4%"
+        marginTop: "1%"
     }
 })

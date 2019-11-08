@@ -13,10 +13,10 @@ const ActivityItem = props => {
         padding: '2%',
         paddingLeft: 0
       }}>
-      <View>
+      <View style={{marginLeft: "1%"}}>
         <HTML html={props.activity} />
       </View>
-      <Text h5 style={{marginLeft: "-2%"}}> {moment(new Date(props.createdAt)).fromNow()}</Text>
+      <Text h5> {moment(new Date(props.createdAt)).fromNow()}</Text>
     </View>
   );
 };

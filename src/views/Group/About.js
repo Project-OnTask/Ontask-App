@@ -39,7 +39,7 @@ const About = props => {
         </Card>
 
         <View style={{marginTop: 10,marginLeft: "5%"}}>
-        <Text h5 style={{fontWeight: "bold",color: "gray"}}>
+        <Text h5 style={{fontWeight: "bold",marginLeft: "1%",color: "gray"}}>
           Activity
         </Text>
         {activities.reverse().map( (item,index) => 

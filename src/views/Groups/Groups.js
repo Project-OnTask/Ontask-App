@@ -28,39 +28,31 @@ function GroupItem(props) {
   return (
     <TouchableOpacity onPress={() => props.navigation.navigate('Group',{
       groupId: props.id
-    })}>
+    })}
+    style={{
+      elevation: 6
+    }}>
       <View
         style={{
           display: 'flex',
           flexDirection: 'row',
-          elevation: 5,
           alignItems: 'center',
-          paddingTop: "2%",
-          paddingBottom: "2%",
+          padding: "3%",
           height: 50,
         }}>
-        <View style={{padding: '3%'}}>
-          <Text h5 style={{fontSize: 16,paddingBottom: "2%"}}>
+        <View>
+          <Text h5 style={{fontSize: 16,paddingBottom: "1%"}}>
             {props.name}
           </Text>
           <HTML 
-            html={props.lastActivity} 
-            alterData={
-              (node) => {
-                let { parent, data } = node;
-                if (parent && parent.name === 'p') {
-                    // Texts elements are always children of wrappers, this is why we check the tag
-                    // with "parent.name" and not "name"
-                    return data.slice(0,20)+"...";
-                }
-                // Don't return anything (eg a falsy value) for anything else than the <h1> tag so nothing is altered
-            }
-            } 
+            html={props.lastActivity.slice(0,28)+"..."}  
           />
           <Text>{}</Text>
         </View>
         <View style={{flexGrow: 1}}></View>
-        <PopupMenu actions={['Revoke access']} onPress={(event, index) => {}} />
+        <View style={{marginTop: "-6%"}}>
+        <PopupMenu actions={['Leave group','Report Group']} onPress={(event, index) => {}} />
+        </View>
       </View>
     </TouchableOpacity>
   );
