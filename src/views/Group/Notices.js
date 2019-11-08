@@ -34,20 +34,20 @@ const Notices = props => {
           Announcements
         </Text>
         <View style={{flexGrow: 1}} />
-        <AddNoticeModal
+        {props.screenProps.isAdmin ? <AddNoticeModal
           groupId={props.screenProps.groupId}
           updateNotices={() => setTrigger(!trigger)}
-        />
+        />: <></>}
       </View>
       <View>
-        {notices.map(notice => (
+        {notices.length > 0 ?notices.map(notice => (
           <NoticeItem key={notice.id} 
           onPress={() => {
             setSelectedNoticeId(notice.id)
             setI(i+1)
           }}
           title={notice.title} createdAt={notice.date} />
-        ))}
+        )) : <Text style={{padding: "10%",textAlign: "center",color: "gray"}}>No announcements yet</Text>}
       </View>
       <NoticeViewer 
         selectedNoticeId={selectedNoticeId}

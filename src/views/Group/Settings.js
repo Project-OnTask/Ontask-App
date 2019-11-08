@@ -12,12 +12,13 @@ const Settings = props => {
   const [error,setError] = useState("")
 
   useEffect(() => {
-    Axios.get('/groups/'+props.screenProps.groupId).then(
-      res => {
-        setName(res.data.name)
-        setDescription(res.data.description)
-      }
-    )
+      Axios.get('/groups/'+props.screenProps.groupId).then(
+        res => {
+          setName(res.data.name)
+          setPrivacyStatus(res.data.isPrivate)
+          setDescription(res.data.description)
+        }
+      )
   },[props.screenProps.groupId])
 
   function togglePrivacyStatus(){
@@ -25,22 +26,28 @@ const Settings = props => {
   }
 
   function updateGroupSettings(){
-    Axios.get('/auth/user/me').then(res => {
-      Axios.put("/groups/"+props.screenProps.groupId,{
-        editedBy: res.data.id,
-        name: name,
-        description: description
-      }).then(
-        res => {
-          if(res.status === 200){
-            Alert.alert("Group settings updated")
+    if(!props.screenProps.isAdmin){
+      Alert.alert("Permission denied")
+    }
+    else{
+      Axios.get('/auth/user/me').then(res => {
+        Axios.put("/groups/"+props.screenProps.groupId,{
+          editedBy: res.data.id,
+          name: name,
+          description: description,
+          isPrivate: isPrivate
+        }).then(
+          res => {
+            if(res.status === 200){
+              Alert.alert("Group settings updated")
+            }
           }
-        }
-        ).catch(err => {
-          console.log(err)
-          setError("An error occured. Please try again")
-        })
-    }).catch(err => console.log(err))
+          ).catch(err => {
+            console.log(err)
+            setError("An error occured. Please try again")
+          })
+      }).catch(err => console.log(err))
+    }
   }
 
   return (

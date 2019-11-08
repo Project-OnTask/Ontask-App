@@ -50,7 +50,9 @@ const Members = props => {
         value={query}
       />
       <View style={{flexGrow: 1}}></View>
-      <AddMemberModal groupId={props.screenProps.groupId} trigger={trigger}/>
+      {props.screenProps.isAdmin ? 
+            <AddMemberModal groupId={props.screenProps.groupId} trigger={trigger}/>
+            :<></>}
         </View>
        
         <Text h4 style={{paddingLeft: '3%'}}>

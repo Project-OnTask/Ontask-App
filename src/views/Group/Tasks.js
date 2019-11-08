@@ -22,10 +22,10 @@ function TaskItem(props) {
           height: 50,
         }}>
         <View style={{padding: '3%'}}>
-          <Text h5 style={{fontSize: 15}}>
+          <Text h5 style={{fontSize: 17,paddingBottom: "1%"}}>
             {props.name}
           </Text>
-          <Text>due {props.dueDate}</Text>
+          <Text style={{color: "gray"}}>due {props.dueDate}</Text>
         </View>
         <View style={{flexGrow: 1}}></View>
         <PopupMenu actions={['Revoke access']} onPress={(event, index) => {}} />
@@ -53,7 +53,7 @@ const GroupTasks = props => {
         navigation={props.screenProps.navigation}
         name={props.screenProps.groupData && props.screenProps.groupData.name}
       />
-      <View style={{marginTop: 50}}>
+      <View style={{marginTop: 45}}>
         <View
           style={{
             display: 'flex',
@@ -65,7 +65,9 @@ const GroupTasks = props => {
             Tasks
           </Text>
           <View style={{flexGrow: 1}}></View>
+          {props.screenProps.isAdmin ? 
           <AddTaskModal groupId={props.screenProps.groupId} updateTasks={() => setTrigger(!trigger)}/>
+          :<></>}
         </View>
         { groupTasks.length > 0 ?groupTasks.map((task,index) => (
           <TaskItem
