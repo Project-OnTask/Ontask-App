@@ -46,18 +46,8 @@ const NewTaskForm = props => {
   }
 
   return (
-    <Card
-      title="Create task"
-      titleStyle={{
-        textAlign: 'left',
-        fontSize: 20,
-        marginLeft: "3%",
-        padding: 0
-      }}
-      containerStyle={{
-        margin: 0,
-        padding: 0
-      }}>
+    <>
+      <Text h4 style={{marginLeft: "3%"}}>Create task</Text>
         {error ? <Text
         style={{
           textAlign: 'center',
@@ -69,14 +59,15 @@ const NewTaskForm = props => {
       </Text> : <></>}
       <Input
         placeholder="Name"
-        containerStyle={{marginBottom: '5%'}}
+        containerStyle={{marginBottom: '1%'}}
         onChangeText={name => setName(name)}
       />
 
       <Input
         placeholder="Description"
         multiline={true}
-        numberOfLines={2}
+        numberOfLines={5}
+        textAlignVertical="top"
         blurOnSubmit={true}
         containerStyle={{paddingBottom: '3%'}}
         onChangeText={description => setDescription(description)}
@@ -108,7 +99,7 @@ const NewTaskForm = props => {
         onPress={createTask}
         buttonStyle={{margin: 10}}
       />
-    </Card>
+    </>
   );
 };
 

@@ -42,17 +42,20 @@ const NewNoticeForm = props => {
             {error ? <Text style={{textAlign: "center",color: "red"}}>{error}</Text> : <></>}
      <Input
      label="Title"
+     blurOnSubmit={true}
      onChangeText={text => setTitle(text)}
   placeholder=''
 />
 
 <Input
+inputContainerStyle={{padding: "2%",borderWidth: 1,borderColor: "gray"}}
      label=""
   placeholder='Compose your notice here..'
   multiline={true}
+  textAlignVertical="top"
+  numberOfLines={6}
   onChangeText={text => setContent(text)}
   blurOnSubmit={true}
-  numberOfLines={2}
 />
 
 <Button

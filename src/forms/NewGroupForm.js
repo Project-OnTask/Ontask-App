@@ -54,10 +54,11 @@ const NewGroupForm = props => {
         <Input placeholder="Name" onChangeText={name => setName(name)} />
 
         <Input
+        inputContainerStyle={{marginTop: "1%"}}
           placeholder="Description"
           multiline={true}
-          underlineColorAndroid="transparent"
-          numberOfLines={4}
+          textAlignVertical="top"
+          numberOfLines={6}
           blurOnSubmit={true}
           onChangeText={desc => setDescription(desc)}
         />
