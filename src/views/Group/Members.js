@@ -61,6 +61,8 @@ const Members = props => {
         {admins.length > 0 ? admins.map( admin => 
         <MemberItem 
           name={admin.fname}
+          id={admin.userId}
+          navigation={props.screenProps.navigation}
           emailHash={admin.emailHash}
         />  
         ) : <Text style={{textAlign: "center"}}>No admins</Text>}
@@ -70,6 +72,8 @@ const Members = props => {
         </Text>
           {members.length > 0 ? members.map( member => <MemberItem 
           name={member.fname}
+          id={member.userId}
+          navigation={props.screenProps.navigation}
           emailHash={member.emailHash}
           />) : <Text style={{textAlign: "center"}}>No members</Text>}
       </View>
