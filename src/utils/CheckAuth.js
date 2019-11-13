@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,Text,Alert,ToastAndroid,ActivityIndicator } from 'react-native' 
+import { View,Image, ToastAndroid } from 'react-native' 
 import AsyncStorage from "@react-native-community/async-storage"
 import axios from 'axios'
 
@@ -35,8 +35,10 @@ class CheckAuth extends Component {
     render() {
         return (
             <View style={{display: "flex",alignItems: "center",height: "100%",justifyContent: "center"}}>
-                   <ActivityIndicator size="large" color="green" />
-                 <Text style={{fontSize: 20}}>Loading..</Text>
+                   <Image
+          style={{width: 200, height: 200}}
+          source={require('../assets/logo.png')}
+        />
             </View>
         );
     }

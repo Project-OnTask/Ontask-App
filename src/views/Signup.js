@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {View, StyleSheet, Alert} from 'react-native';
+import {View, StyleSheet, Alert, Image} from 'react-native';
 import {Text, Input, Button} from 'react-native-elements';
 import PhoneInput from 'react-native-phone-input';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -71,9 +71,10 @@ const Signup = props => {
 
   return (
     <View style={styles.container}>
-      <Text h3 style={styles.title}>
-        OnTask
-      </Text>
+                <Image
+          style={{width: 150, height: 150}}
+          source={require('../assets/logo.png')}
+        />
       <Text style={styles.error}>{err}</Text>
       <Input
         label="First Name"
