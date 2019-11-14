@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, ScrollView, Dimensions, Alert} from 'react-native';
+import {View, ScrollView, Alert} from 'react-native';
 import {Card, Text, Input} from 'react-native-elements';
 import PopupMenu from '../../components/DotBtnMenu';
 import Swiper from 'react-native-swiper';
@@ -188,12 +188,32 @@ const Task = props => {
 };
 
 Task.navigationOptions = ({navigation}) => {
+  function addToOutlook() {}
+
+  function showActivity() {}
+
+  function deleteTask() {}
+
   return {
     title: navigation.getParam('name'),
+    headerStyle: {backgroundColor: '#06A1C1'},
+    headerTitleStyle: {color: 'white', fontWeight: 'bold'},
     headerRight: (
       <PopupMenu
+        color="white"
         actions={['Add to Outlook', 'See activity', 'Delete task']}
-        onPress={(event, index) => {}}
+        onPress={(eventName, index) => {
+          if (eventName !== 'itemSelected') return;
+          if (index === 0) {
+            addToOutlook();
+          }
+          if (index === 1) {
+            showActivity();
+          }
+          if (index === 2) {
+            deleteTask();
+          }
+        }}
       />
     ),
   };
