@@ -72,7 +72,7 @@ export default class drawerContentComponents extends Component {
           onPress={this.navigateToScreen("Profile")}
           style={{
             width: "100%",
-            backgroundColor: "#1B8BD8",
+            backgroundColor: "#09C442",
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
@@ -158,10 +158,10 @@ export default class drawerContentComponents extends Component {
               Groups
             </Text>
           </View>
-          {/* <View
+          <View
             style={[
               styles.screenStyle,
-              this.props.activeItemKey == "Settings"
+              this.props.activeItemKey == "OnTaskWeb"
                 ? styles.activeBackgroundColor
                 : null,
             ]}
@@ -170,15 +170,15 @@ export default class drawerContentComponents extends Component {
             <Text
               style={[
                 styles.screenTextStyle,
-                this.props.activeItemKey == "Settings"
+                this.props.activeItemKey == "OnTaskWeb"
                   ? styles.selectedTextStyle
                   : null,
               ]}
-              onPress={this.navigateToScreen("Settings")}
+              onPress={this.navigateToScreen("OnTaskWeb")}
             >
-              Settings
+              OnTask Web
             </Text>
-          </View> */}
+          </View>
         </View>
       </View>
     );

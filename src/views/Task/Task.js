@@ -8,6 +8,7 @@ import CommentItem from './components/CommentItem';
 import AssigneeItem from './components/AssigneeItem';
 import ActivityItem from './components/ActivityItem';
 import FIcon from 'react-native-vector-icons/Feather';
+import PusherObject from '../../utils/PusherObject'
 import ResourceItem from './components/ResourceItem';
 import Axios from 'axios';
 import AddAssigneeModal from './components/AddAssigneeModal';
@@ -22,7 +23,8 @@ const Task = props => {
   const [error, setError] = useState('');
 
   function postComment() {
-    Axios.get('/auth/user/me')
+    if(input){
+      Axios.get('/auth/user/me')
       .then(res => {
         Axios.post('/comments', {
           userId: res.data.id,
@@ -32,7 +34,7 @@ const Task = props => {
           .then(res => {
             if (res.status === 200) {
               Alert.alert('success');
-              trigger();
+              //trigger();
             }
           })
           .catch(err => setError('There was an error. Please try again.'));
@@ -41,13 +43,26 @@ const Task = props => {
         console.log(err);
         setError('There was an error. Please try again.');
       });
+    }
+    else{
+      Alert.alert("Empty comment")
+    }
   }
 
   function trigger() {
     setTrig(!trig);
   }
 
+  function updateComments(data){
+    console.log(data)
+    setComments([...comments,data])
+  }
+
   useEffect(() => {
+    const chatChannel = PusherObject.subscribe('chat_'+props.navigation.getParam('id')); 
+    
+    chatChannel.bind('new_comment', data => updateComments(JSON.parse(data)));
+
     props.navigation.setParams({
       headerTitle: props.navigation.getParam('name'),
     });
@@ -172,13 +187,13 @@ const Task = props => {
               />
             ))
           ) : (
-            <Text style={{textAlign: 'center'}}>Be the first to comment</Text>
+            <Text style={{textAlign: 'center',paddingTop: "5%",color: "gray"}}>Be the first to comment</Text>
           )}
         </ScrollView>
         <View style={{height: 50}}>
           <Input
             placeholder="Write message"
-            rightIcon={<Icon name="chevron-right" onPress={postComment} />}
+            rightIcon={<Icon name="chevron-right" size={30} onPress={postComment} />}
             onChangeText={text => setInput(text)}
           />
         </View>

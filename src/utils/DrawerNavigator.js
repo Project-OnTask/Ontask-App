@@ -7,7 +7,7 @@ import Tasks from '../views/Tasks';
 import Groups from '../views/Groups/Groups';
 import Group from '../views/Group/Group';
 import Profile from '../views/Profile/Profile';
-import Settings from '../views/Settings';
+import OnTaskWeb from '../views/OnTaskWeb'
 
 const MyDrawerNavigator = createDrawerNavigator(
   {
@@ -26,8 +26,8 @@ const MyDrawerNavigator = createDrawerNavigator(
     Group: {
       screen: Group,
     },
-    Settings: {
-      screen: Settings,
+    OnTaskWeb: {
+      screen: OnTaskWeb,
     },
   },
   {

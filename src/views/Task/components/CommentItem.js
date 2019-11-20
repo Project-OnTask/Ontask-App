@@ -11,7 +11,7 @@ const CommentItem = props => {
           source={{uri: `https://www.gravatar.com/avatar/${props.emailHash}?d=retro&s=10`}}
         />
             <View>
-            <Text h5 style={{}}>{props.fname} &#183; {moment(new Date(props.createdAt)).fromNow()}</Text>
+            <Text h5 style={{fontSize: 18}}>{props.fname} &#183; <Text style={{fontSize: 13}}>{moment(new Date(props.createdAt)).fromNow()}</Text></Text>
             <Text>{props.content}</Text>
             </View>
         </View>
