@@ -184,26 +184,6 @@ const Dashboard = props => {
             </View>
           </View>
 
-          {/* Percentage of assigned tasks of each group */}
-          <View style={styles.groupOverview}></View>
-          <PieChart
-            data={data}
-            width={Dimensions.get('window').width}
-            height={150}
-            paddingLeft="-20"
-            chartConfig={{
-              backgroundGradientFrom: '#1E2923',
-              backgroundGradientFromOpacity: 0,
-              backgroundGradientTo: '#08130D',
-              backgroundGradientToOpacity: 0.5,
-              color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-              strokeWidth: 2,
-              barPercentage: 0.5,
-            }}
-            accessor="count"
-            backgroundColor="transparent"
-          />
-
        </View>
       </ScrollView>
     </>

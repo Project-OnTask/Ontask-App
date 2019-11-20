@@ -131,8 +131,10 @@ android {
         applicationId "com.newontaskapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        missingDimensionStrategy 'react-native-camera', 'general'
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -179,10 +181,12 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-permissions')
+    compile 'com.android.support:multidex:1.0.0'
+    implementation project(':react-native-camera')
+    implementation project(':react-native-image-picker')
     implementation project(':react-native-screens')
     implementation project(':react-native-gesture-handler')
-    implementation project(':react-native-reanimated')
-    implementation project(':react-native-date-picker')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules

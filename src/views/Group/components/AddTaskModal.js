@@ -18,7 +18,7 @@ export default function NewTaskModal(props){
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-            <EIcon name="cross" size={25} style={styles.closeIcon} onPress={() => {
+            <EIcon name="cross" size={35} style={styles.closeIcon} onPress={() => {
                   setModalVisible(false);
                 }}/>
                  <ScrollView>
@@ -36,7 +36,7 @@ export default function NewTaskModal(props){
           onPress={() => {
             setModalVisible(true);
           }}>
-                        <Icon name="addusergroup" size={25} style={styles.addIcon} />
+                        <Icon name="plus" size={30} style={styles.addIcon} />
         </TouchableHighlight>
         </View>
     );

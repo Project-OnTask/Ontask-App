@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Input, Button, Text} from 'react-native-elements';
 import {View, Alert, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const NewGroupForm = props => {
   const [name, setName] = useState('');
@@ -15,51 +15,57 @@ const NewGroupForm = props => {
 
   async function createGroup() {
     if (
-      name.length === 0 ||
-      name === undefined ||
-      description.length === 0 ||
-      description === undefined
+      name.length === 0 || name === undefined || // If name field is empty
+      description.length === 0 || description === undefined //If description field is empty
     ) {
       showError();
     } else {
       setSubmitStatus(true);
-      axios.get('/auth/user/me').then(res => {
-        axios
-        .post('/groups', {
-          userId: res.data.id,
-          name: name,
-          description: description,
-        })
+      axios
+        .get('/auth/user/me')
         .then(res => {
-          if (res.status === 200) {
-            Alert.alert('New Group Created');
-            setSubmitStatus(false);
-            props.onFormSubmit();
-          }
+          axios
+            .post('/groups', {
+              userId: res.data.id,
+              name: name,
+              description: description,
+            })
+            .then(res => {
+              if (res.status === 200) {
+                Alert.alert('New Group Created');
+                setSubmitStatus(false);
+                props.onFormSubmit();
+              }
+            })
+            .catch(err => {
+              setSubmitStatus(false);
+              console.log(err);
+            });
         })
-        .catch(err => {
-          setSubmitStatus(false);
-          console.log(err);
-        });
-      }).catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
   }
 
   return (
-    <>
-      <Text h4 style={{paddingLeft: '2%',marginBottom: "2%"}}>
-        Create group
+    <ScrollView>
+      <Text h4 style={styles.title}>
+        Create new group
       </Text>
       <View>
-        <Input placeholder="Name" onChangeText={name => setName(name)} />
+        <Input
+          label="Name"
+          inputContainerStyle={styles.nameField}
+          onChangeText={name => setName(name)}
+        />
 
         <Input
-        inputContainerStyle={{marginTop: "1%"}}
-          placeholder="Description"
+          containerStyle={{marginTop: '4%'}}
+          label="Description"
           multiline={true}
           textAlignVertical="top"
           numberOfLines={6}
           blurOnSubmit={true}
+          inputContainerStyle={styles.descriptionField}
           onChangeText={desc => setDescription(desc)}
         />
 
@@ -72,16 +78,35 @@ const NewGroupForm = props => {
           />
         </View>
       </View>
-    </>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  btn: {},
+  title: {
+    paddingLeft: '3%', 
+    marginBottom: '3%', 
+    marginBottom: '5%'
+  },
+  nameField: {
+    borderWidth: 1,
+    marginTop: 10,
+    borderRadius: 10,
+    borderBottomColor: 'black',
+    borderColor: 'black',
+  },
+  descriptionField: {
+    borderWidth: 1,
+    marginTop: 10,
+    borderRadius: 10,
+    borderBottomColor: 'black',
+    borderColor: 'black',
+  },
   btnContainer: {
-    marginTop: '2%',
-    marginLeft: '5%',
-    marginRight: '5%',
+    marginTop: '4%',
+    marginLeft: '3%',
+    marginRight: '3%',
+    borderRadius: 10,
   },
 });
 

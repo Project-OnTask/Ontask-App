@@ -8,6 +8,7 @@ const Menu = (props) => {
         <Icon
   name='menu' 
   color="white"
+  size={35}
   onPress={ () => {
     props.navigation.dispatch(DrawerActions.openDrawer());
 }}/>
@@ -26,6 +27,7 @@ const ActionBar = props => {
             paddingTop: 0,
             marginTop: 0,
             height: 50,
+            backgroundColor: "#09C442",
             position: "absolute",
             top: 0,
             zIndex: 250000,

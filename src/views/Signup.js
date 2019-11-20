@@ -10,6 +10,7 @@ const Signup = props => {
   const [err, setError] = useState('');
   const [firstName, setFirstName] = useState('');
   const [btnText, setBtnText] = useState('Sign up');
+  const [countryCode,setCountryCode] = useState("+94")
   const [disabled, setDisabled] = useState(false);
   const [mobile, setMobile] = useState('');
   const phone = useRef(null);
@@ -39,31 +40,29 @@ const Signup = props => {
       axios
         .post('/auth/signup/mobile', {
           fname: firstName,
-          mobile: mobile,
+          mobile: countryCode+mobile,
         })
         .then(res => {
           if (res.status === 200 || res.status === 201) {
             axios
               .post('/auth/signin/mobile', {
-                email: mobile,
-                password: mobile,
+                email: countryCode+mobile,
+                password: countryCode+mobile,
               })
               .then(res => {
-                Alert.alert(res.data.accessToken)
                 setToken(res.data.accessToken);
-              });
-            // this.props.navigation.navigate('VerifyMobile',{
-            //   userId: res.data.userId,
-            //   mobile: this.state.mobile,
-            //   reqId: res.data.requestId
-            // })
+              }).catch(
+                err =>      {
+                  setError('An error occured when logging. Please try again');
+                } 
+              );
           }
         })
         .catch(err => {
-          console.log(err);
           setError('An error occured. Please try again');
           setDisabled(false)
           setBtnText('Sign up');
+          console.log(err);
           throw err;
         });
     }
@@ -79,6 +78,14 @@ const Signup = props => {
       <Input
         label="First Name"
         errorStyle={{color: 'red'}}
+        inputContainerStyle={{
+          marginTop: 10,
+          borderWidth: 1,
+          height: 40,
+          borderRadius: 10,
+          borderBottomColor: "black",
+          borderColor: "black"
+        }}
         onChangeText={name => setFirstName(name)}
       />
 
@@ -87,6 +94,8 @@ const Signup = props => {
       </Text>
       <PhoneInput
         ref={phone}
+        getCountryCode={code => setCountryCode(code)}
+        initialCountry="lk"
         style={styles.phoneInput}
         onChangePhoneNumber={number => setMobile(number)}
       />
@@ -129,13 +138,18 @@ const styles = StyleSheet.create({
   phoneInput: {
     marginLeft: '3%',
     marginRight: '3%',
-    marginTop: '8%',
+    paddingTop: "6%",
+    marginTop: '3%',
+    paddingLeft: "2%",
+    borderWidth: 1,
+    borderColor: "black",
     marginBottom: '7%',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
+    borderRadius: 10
   },
   signUpBtn: {
-    width: '80%',
+    width: '100%',
+    borderRadius: 20,
+    backgroundColor: "#09C442"
   },
   signUpBtnText: {
     marginRight: '25%',

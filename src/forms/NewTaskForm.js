@@ -1,9 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import {View, Alert} from 'react-native';
-import {Input, Button, Card, Text} from 'react-native-elements';
-import DatePicker from 'react-native-date-picker';
+import {Alert, StyleSheet} from 'react-native';
+import {Input, Button, Text} from 'react-native-elements';
+import DatePicker from 'react-native-datepicker'
 import Axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
+
+const styles = StyleSheet.create({
+  input: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 10
+  },
+  dateLabel: {
+    marginLeft: "2%",
+    color: "gray",
+    marginTop: "2%",
+    fontSize: 16,
+    fontWeight: "bold"
+  }
+}
+)
 
 const NewTaskForm = props => {
   const [name, setName] = useState('');
@@ -15,7 +30,7 @@ const NewTaskForm = props => {
 
   async function createTask() {
     setSubmitStatus(true)
-    
+
     Axios.get('/auth/user/me').then(res => {
       Axios.post('/tasks', {
         createdBy: res.data.id,
@@ -23,7 +38,7 @@ const NewTaskForm = props => {
         description: description,
         startDate: new Date(startDate).toJSON().slice(0,10),
         dueDate: new Date(dueDate).toJSON().slice(0,10),
-        groupId: props.groupId,
+        groupId: props.groupId
       })
         .then(res => {
           if (res.status === 200) {
@@ -58,40 +73,73 @@ const NewTaskForm = props => {
         {error}
       </Text> : <></>}
       <Input
-        placeholder="Name"
-        containerStyle={{marginBottom: '1%'}}
+        label="Name"
+        inputContainerStyle={styles.input}
+        containerStyle={{marginTop: '2%'}}
         onChangeText={name => setName(name)}
       />
 
       <Input
-        placeholder="Description"
+        label="Description"
         multiline={true}
+        inputContainerStyle={styles.input}
         numberOfLines={5}
         textAlignVertical="top"
         blurOnSubmit={true}
-        containerStyle={{paddingBottom: '3%'}}
+        containerStyle={{paddingTop: '2%'}}
         onChangeText={description => setDescription(description)}
       />
 
-        <Text h5 style={{fontSize: 18,marginLeft: "3%",color: "gray"}}>
-          Start date
-        </Text>
-        <DatePicker
-          date={startDate}
-          onDateChange={date => setStartDate(date)}
-          minimumDate={new Date().toJSON().slice(0, 10)}
-        />
+<Text style={styles.dateLabel}>Start date</Text>
+<DatePicker
+        style={{width: "105%",marginLeft: "-8%",marginTop: "2%"}}
+        date={startDate}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        showIcon={false}
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={date => setStartDate(date)}
+      />
 
-
-        <Text h5 style={{fontSize: 18,marginLeft: "3%",color: "gray"}}>
-          Due date
-        </Text>
-        <DatePicker
-          date={dueDate}
-          onDateChange={date => setDueDate(date)}
-          minimumDate={startDate}
-        />
-
+<Text style={styles.dateLabel}>Due date</Text>
+<DatePicker
+        style={{width: "105%",marginLeft: "-8%",marginTop: "2%"}}
+        date={dueDate}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        minDate={startDate}
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        showIcon={false}
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={date => setDueDate(date)}
+      />
 
       <Button
         title="Create task"

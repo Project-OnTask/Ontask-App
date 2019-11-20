@@ -10,28 +10,25 @@ import Header from '../../components/Header';
 import Axios from 'axios';
 
 function GroupItem(props) {
-  // onPopupEvent = (eventName, index) => {
-  //     if (eventName !== 'itemSelected') return
-  //     if (index === 0){
-  //       if(this.props.role==="admin"){
-  //         this.removeAdmin()
-  //       }
-  //       else{
-  //         this.setAdmin()
-  //       }
-  //     }
-  //     else {
+  const onPopupEvent = (eventName, index) => {
+      if (eventName !== 'itemSelected') return
+      if (index === 0){
+        
+      }
+      else if(index === 1){
+          this.removeFromGroup()   
+      }
+    }
 
-  //         this.removeFromGroup()   }
-  //   }
+    function leaveGroup(){
+
+    }
+
+    function reportGroup(){
+
+    }
 
   return (
-    <TouchableOpacity onPress={() => props.navigation.navigate('Group',{
-      groupId: props.id
-    })}
-    style={{
-      elevation: 6
-    }}>
       <View
         style={{
           display: 'flex',
@@ -41,12 +38,16 @@ function GroupItem(props) {
           height: 50,
         }}>
         <View>
-          <Text h5 style={{fontSize: 16,paddingBottom: "1%"}}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Group',{
+      groupId: props.id
+    })}>
+          <Text h5 style={{fontSize: 20,paddingBottom: "3%"}}>
             {props.name}
           </Text>
           <HTML 
-            html={props.lastActivity.slice(0,28)+"..."}  
+            html={props.lastActivity.slice(0,30)+"..."}  
           />
+              </TouchableOpacity>
           <Text>{}</Text>
         </View>
         <View style={{flexGrow: 1}}></View>
@@ -54,7 +55,6 @@ function GroupItem(props) {
         <PopupMenu actions={['Leave group','Report Group']} onPress={(event, index) => {}} />
         </View>
       </View>
-    </TouchableOpacity>
   );
 }
 
