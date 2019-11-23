@@ -22,10 +22,10 @@ function TaskItem(props) {
           height: 50,
         }}>
         <View style={{padding: '3%'}}>
-          <Text h5 style={{fontSize: 17,paddingBottom: "1%"}}>
+          <Text h5 style={{fontSize: 20,paddingBottom: "1%"}}>
             {props.name}
           </Text>
-          <Text style={{color: "gray"}}>due {props.dueDate}</Text>
+          <Text>due <Text style={{color: "gray"}}>{props.dueDate}</Text></Text>
         </View>
         <View style={{flexGrow: 1}}></View>
         <PopupMenu actions={['Revoke access']} onPress={(event, index) => {}} />

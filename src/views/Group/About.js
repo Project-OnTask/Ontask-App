@@ -30,16 +30,15 @@ const About = props => {
         name={props.screenProps.groupData && props.screenProps.groupData.name}
       />
       <ScrollView style={{marginTop: 55}}>
-        <Card
-          title="About"
-          titleStyle={{
-            textAlign: 'left',
-          }}>
-          <Text style={{marginBottom: 10}}>{groupDesc}</Text>
-        </Card>
+        <View style={{marginTop: 10,marginLeft: "5%"}}>
+          <Text style={{fontSize: 20,fontWeight: "bold",color: "gray"}}>About</Text>
+          <View style={{padding: "5%",paddingLeft: 0}}>
+          <Text style={{marginBottom: 5}}>{groupDesc}</Text>
+          </View>
+        </View>
 
         <View style={{marginTop: 10,marginLeft: "5%"}}>
-        <Text h5 style={{fontWeight: "bold",marginLeft: "1%",color: "gray"}}>
+        <Text h5 style={{fontSize: 20,fontWeight: "bold",marginLeft: "1%",color: "gray"}}>
           Activity
         </Text>
         {activities.reverse().map( (item,index) => 

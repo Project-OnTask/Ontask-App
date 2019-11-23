@@ -37,14 +37,14 @@ export default function NewGroupModal(props){
           onPress={() => {
             setModalVisible(true);
           }}>
-                        <Icon name="addusergroup" size={25} style={styles.addIcon} />
+                        <Icon name="addusergroup" size={30} style={styles.addIcon} />
         </TouchableHighlight>
       </View>
     );
 }
 
 const styles = StyleSheet.create({
-    addIcon: {paddingRight: '3%'},
+    addIcon: {paddingRight: '6%',paddingTop: "4%"},
     closeIcon: {
         textAlign: "right",
         padding: "2%"

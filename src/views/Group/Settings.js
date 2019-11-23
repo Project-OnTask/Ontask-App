@@ -66,12 +66,28 @@ const Settings = props => {
       <Input 
         label="Group name"
         onChangeText={text => setName(text)}
+        inputContainerStyle={{
+          marginTop: 10,
+          borderWidth: 1,
+          height: 40,
+          borderRadius: 10,
+          borderBottomColor: "black",
+          borderColor: "black"
+        }}
       />
       <Input 
         label="Group Description"
-        numberOfLines={2}
+        numberOfLines={6}
+        textAlignVertical="top"
         blurOnSubmit={true}
         multiline={true}
+        inputContainerStyle={{
+          marginTop: 10,
+          borderWidth: 1,
+          borderRadius: 10,
+          borderBottomColor: "black",
+          borderColor: "black"
+        }}
         onChangeText={text => setDescription(text)}
       />
       <View style={{display: "flex",flexDirection: "row",marginTop: "3%",marginLeft: "3%"}}>

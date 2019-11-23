@@ -9,8 +9,8 @@ const NoticeItem = props => {
         <TouchableOpacity onPress={props.onPress}>
             <View style={{display: "flex",flexDirection: "row",padding: "4%",paddingLeft: "1%",marginLeft: "1%",height: 40,alignItems: "center"}}>
            <View>
-            <Text h5 style={{fontWeight: "bold"}}>{props.title}</Text>
-            <Text>{moment(new Date(props.createdAt)).fromNow()}</Text>
+            <Text h5 style={{fontSize: 18}}>{props.title}</Text>
+            <Text style={{color: "gray"}}>{moment(new Date(props.createdAt)).fromNow()}</Text>
             </View>
             <View style={{flexGrow: 1}} />
             <PopupMenu 

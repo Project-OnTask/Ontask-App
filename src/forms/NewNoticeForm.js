@@ -36,35 +36,42 @@ const NewNoticeForm = props => {
     }
 
     return (
-        <Card
-        title="New Announcement"
-        titleStyle={{textAlign: "left"}}>
+        <View>
+            <Text h4 style={{fontWeight: "bold",marginLeft: 10,paddingBottom: 10}}>New Announcement</Text>
             {error ? <Text style={{textAlign: "center",color: "red"}}>{error}</Text> : <></>}
      <Input
      label="Title"
      blurOnSubmit={true}
+     inputContainerStyle={{
+        marginTop: 10,
+        borderWidth: 1,
+        height: 40,
+        borderRadius: 10,
+        borderBottomColor: "black",
+        borderColor: "black"
+      }}
      onChangeText={text => setTitle(text)}
   placeholder=''
 />
 
 <Input
-inputContainerStyle={{padding: "2%",borderWidth: 1,borderColor: "gray"}}
+inputContainerStyle={{padding: "2%",borderWidth: 1,borderRadius: 10,borderColor: "gray"}}
      label=""
   placeholder='Compose your notice here..'
   multiline={true}
   textAlignVertical="top"
-  numberOfLines={6}
+  numberOfLines={8}
   onChangeText={text => setContent(text)}
   blurOnSubmit={true}
 />
 
 <Button
-  containerStyle={{marginTop: 10}}
+  containerStyle={{marginTop: 10,width: "95%",marginLeft: 10}}
   title="Add Announcement"
   disabled={isSubmitting}
   onPress={createNotice}
 />
-        </Card>
+        </View>
     );
 };
 
