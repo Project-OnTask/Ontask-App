@@ -11,11 +11,8 @@ import { createAppContainer } from 'react-navigation';
 import StackNavigator from './src/utils/StackNavigator'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
-
-//prod: 'https://ontask-back.herokuapp.com/api'
-//dev: 'http://172.29.208.1:8080/api'
-
-axios.defaults.baseURL = 'http://172.29.208.1:8080/api'
+ 
+axios.defaults.baseURL = 'https://ontask.pagekite.me/api'
 console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
 console.disableYellowBox = true;
 
