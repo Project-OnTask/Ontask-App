@@ -8,6 +8,7 @@ import Axios from 'axios';
 
 const Members = props => {
   const [query,setQuery] = useState("")
+  const [searchResults,setSearchResults] = useState([])
   const [trig,setTrig] = useState(false)
   const [admins,setAdmins] = useState([])
   const [members,setMembers] = useState([])
@@ -32,6 +33,21 @@ const Members = props => {
 
   },[props.screenProps.groupId,trig])
 
+  function searchMembers(query){
+    setQuery(query)
+    if(query === ""){
+        setSearchResults([])
+      }
+      else{
+        axios.get('/member/'+props.groupId+'/search/'+query).then(
+          res => {
+              console.log(res.data)
+              setSearchResults(res.data)
+          } 
+        ).catch(err => console.log(err))
+      }
+}
+
   return (
     <View>
       <Header
@@ -46,7 +62,7 @@ const Members = props => {
         onCancel={() => setQuery("")}
         inputStyle={{width: "90%",height: 10,padding: "2%"}}
         placeholder="Search members..."
-        onChangeText={text => setQuery(text)}
+        onChangeText={text => searchMembers(text)}
         value={query}
       />
       <View style={{flexGrow: 1}}></View>
@@ -67,7 +83,7 @@ const Members = props => {
         />  
         ) : <Text style={{textAlign: "center"}}>No admins</Text>}
         
-        <Text h4 style={{paddingLeft: '3%'}}>
+        <Text h4 style={{paddingLeft: '3%',marginTop: 10}}>
           Members
         </Text>
           {members.length > 0 ? members.map( member => <MemberItem 
