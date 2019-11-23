@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
-import {Text} from 'react-native-elements';
+import {Text,SearchBar} from 'react-native-elements';
 import PopupMenu from '../../components/DotBtnMenu'
 import NewGroupModal from './components/NewGroupModal'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -66,6 +66,7 @@ const Groups = props => {
     Axios.get('/auth/user/me').then(
       res => {
         Axios.get('/'+ res.data.id+'/groups').then(res => {
+          console.log("groups: ",res.data)
           setGroups(res.data)
         }).catch(err => console.log(err))
       }
@@ -81,7 +82,15 @@ const Groups = props => {
       <Header navigation={props.navigation} name="Groups" />
       <View style={{marginTop: 50}}>
         <View style={screenStyles.topic}>
-          
+        <SearchBar
+        containerStyle={{width: "90%",backgroundColor: "white",borderBottomColor: "white",borderTopColor: "white"}}
+        inputContainerStyle={{width: "90%"}}
+        //onCancel={() => setQuery("")}
+        inputStyle={{width: "90%",height: 10,padding: "2%"}}
+        placeholder="Search groups..."
+        //onChangeText={text => setQuery(text)}
+        //value={query}
+      />
           <View style={{flexGrow: 1}} />
             <NewGroupModal triggerUpdate={triggerUpdate} navigation={props.navigation}/>
         </View>
@@ -105,6 +114,7 @@ const screenStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     paddingTop: '1%',
+    marginLeft: "1%",
     paddingBottom: '1%',
   }
 });
