@@ -16,7 +16,7 @@ const About = props => {
 
     Axios.get('/groups/' + props.screenProps.groupId + '/activity').then(
       res => {
-        setActivities(res.data);
+        setActivities(res.data.reverse());
         console.log('activities: ', res.data);
       },
     );
@@ -30,18 +30,18 @@ const About = props => {
         name={props.screenProps.groupData && props.screenProps.groupData.name}
       />
       <ScrollView style={{marginTop: 55}}>
-        <View style={{marginTop: 10,marginLeft: "5%"}}>
+        <View style={{marginTop: 10,marginLeft: "4%"}}>
           <Text style={{fontSize: 20,fontWeight: "bold",color: "gray"}}>About</Text>
           <View style={{padding: "5%",paddingLeft: 0}}>
           <Text style={{marginBottom: 5}}>{groupDesc}</Text>
           </View>
         </View>
 
-        <View style={{marginTop: 10,marginLeft: "5%"}}>
+        <View style={{marginTop: 10,marginLeft: "4%"}}>
         <Text h5 style={{fontSize: 20,fontWeight: "bold",marginLeft: "1%",color: "gray"}}>
           Activity
         </Text>
-        {activities.reverse().map( (item,index) => 
+        {activities.map( (item,index) => 
           <ActivityItem 
           key={index}
           activity={item.description.split('group')[0]+" group"}
