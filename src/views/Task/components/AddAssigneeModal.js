@@ -42,7 +42,7 @@ export default function AddAssigneeModal(props) {
         onPress={() => {
           setModalVisible(true);
         }}>
-        <FIcon name="plus" size={20} style={{color: 'gray'}} />
+        <FIcon name="plus" size={25} style={{color: 'gray'}} />
       </TouchableHighlight>
     </View>
   );

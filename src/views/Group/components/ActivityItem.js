@@ -14,7 +14,7 @@ const ActivityItem = props => {
         paddingLeft: 0
       }}>
       <View style={{marginLeft: "1%"}}>
-        <HTML html={props.activity} />
+        <HTML html={props.activity.slice(0,45)+"..."} />
       </View>
       <Text h5> {moment(new Date(props.createdAt)).fromNow()}</Text>
     </View>

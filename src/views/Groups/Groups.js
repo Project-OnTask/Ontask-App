@@ -41,7 +41,7 @@ function GroupItem(props) {
         <TouchableOpacity onPress={() => props.navigation.navigate('Group',{
       groupId: props.id
     })}>
-          <Text h5 style={{fontSize: 20,paddingBottom: "3%"}}>
+          <Text h5 style={{fontSize:15,paddingBottom: "1%",fontWeight: "bold"}}>
             {props.name}
           </Text>
           <HTML 

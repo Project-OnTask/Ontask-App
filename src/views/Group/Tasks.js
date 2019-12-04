@@ -22,7 +22,7 @@ function TaskItem(props) {
           height: 50,
         }}>
         <View style={{padding: '3%'}}>
-          <Text h5 style={{fontSize: 20,paddingBottom: "1%"}}>
+          <Text h5 style={{fontSize: 17,paddingBottom: "1%"}}>
             {props.name}
           </Text>
           <Text>due <Text style={{color: "gray"}}>{props.dueDate}</Text></Text>
