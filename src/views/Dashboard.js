@@ -10,25 +10,25 @@ import {
 import Header from '../components/Header';
 import {Text, List, ListItem} from 'react-native-elements';
 import ProgressCircle from 'react-native-progress-circle';
+import PusherObject from '../utils/PusherObject';
 import Axios from 'axios';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from 'react-native-chart-kit';
+import {BackHandler} from 'react-native';
 
 const Dashboard = props => {
   const [totalCount, setTotalCount] = useState(0);
-  const [pieChartData,setPieChartData] = useState([])
   const [completedCount, setCompletedCount] = useState(0);
   const [overdueCount, setOverdueCount] = useState(0);
   const [groupCount, setGroupCount] = useState(0);
+  const [feedItems, setFeedItems] = useState([]);
   const [groups, setGroups] = useState(0);
 
+  function handleBackPress() {
+    BackHandler.exitApp();
+  }
+
   useEffect(() => {
+    //BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
     props.navigation.setParams({
       headerMode: 'none',
     });
@@ -47,16 +47,48 @@ const Dashboard = props => {
           .then(res => setOverdueCount(res.data))
           .catch(err => console.log(err));
 
-        Axios.get('/user/' + res.data.id + '/groups/count').then(res =>
-          setGroupCount(res.data),
-        );
+        Axios.get('/user/' + res.data.id + '/groups/count')
+          .then(res => setGroupCount(res.data))
+          .catch(err => console.log(err));
 
-        Axios.get('/user/' + res.data.id + '/groups').then(res =>
-          setGroups(res.data),
-        );
+        Axios.get('/user/' + res.data.id + '/groups')
+          .then(res => setGroups(res.data))
+          .catch(err => console.log(err));
+
+        Axios.get('/user/' + res.data.id + '/u_notifications')
+          .then(res => {
+            this.setState({feedItems: res.data});
+          })
+          .catch(err => console.log(err));
+
+        Axios.get('/' + res.data.id + '/groups')
+          .then(res => {
+            setGroups(res.data);
+            res.data
+              .map((group, index) => {
+                const chatChannel = PusherObject.subscribe(
+                  'group_' + group.groupId,
+                );
+                chatChannel.bind('new_activity', data => updateFeed);
+              })
+              .catch(err => console.log(err));
+
+        Axios.get('/user/' + res.data.id + '/u_notifications')
+              .then(res => {
+                setFeedItems(res.data);
+              })
+              .catch(err => console.log(err));
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => console.log(err));
   }, []);
+
+  function updateFeed(data) {
+    setFeedItems([...feedItems, JSON.parse(data)]);
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -67,53 +99,11 @@ const Dashboard = props => {
     groupOverview: {display: 'flex', justifyContent: 'center'},
   });
 
-  const data = [
-    {
-      name: 'Seoul',
-      count: 21500000,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'Toronto',
-      count: 2800000,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'Beijing',
-      count: 527612,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'New York',
-      count: 8538000,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-    {
-      name: 'Moscow',
-      count: 11920000,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
-    },
-  ];
-
   return (
     <>
       <Header navigation={props.navigation} name="OnTask" />
       <ScrollView style={{marginTop: 55}}>
         <View style={styles.container}>
-          <Text h4 style={{marginBottom: '3%'}}>
-            Dashboard
-          </Text>
-
           {/* Task summary goes here */}
           <View style={styles.summary}>
             <View
@@ -127,7 +117,7 @@ const Dashboard = props => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginBottom: '2%',
+                  marginBottom: '4%',
                 }}>
                 <Text style={{width: 85, fontSize: 16, color: 'gray'}}>
                   Total{' '}
@@ -139,7 +129,7 @@ const Dashboard = props => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginBottom: '2%',
+                  marginBottom: '4%',
                 }}>
                 <Text style={{width: 85, fontSize: 16, color: 'gray'}}>
                   Completed{' '}
@@ -153,7 +143,7 @@ const Dashboard = props => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginBottom: '2%',
+                  marginBottom: '4%',
                 }}>
                 <Text style={{width: 85, fontSize: 16, color: 'gray'}}>
                   Overdue{' '}
@@ -184,7 +174,35 @@ const Dashboard = props => {
             </View>
           </View>
 
-       </View>
+          <Text h4 style={{marginBottom: '3%'}}>
+            My Day
+          </Text>
+          {feedItems.length > 0 ? (
+            feedItems.map(feedItem => {
+              return (
+                <FeedItem
+                  id={feedItem.id}
+                  description={
+                    feedItem.description || feedItem.activity.description
+                  }
+                  createdAt={feedItem.createdAt || feedItem.activity.createdAt}
+                />
+              );
+            })
+          ) : (
+            <View>
+              <Text
+                style={{
+                  padding: '5%',
+                  paddingLeft: 0,
+                  color: 'gray',
+                  textAlign: 'center',
+                }}>
+                No recent activity
+              </Text>
+            </View>
+          )}
+        </View>
       </ScrollView>
     </>
   );
