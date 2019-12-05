@@ -72,7 +72,7 @@ const Profile = props => {
 
   function renderUserBio() {
     if (userData.bio) {
-      return <Text style={{padding: "4%",marginBottom: 10}}>{userData.bio}</Text>;
+      return <Text style={{padding: "4%",paddingLeft: 0,marginBottom: 10}}>{userData.bio}</Text>;
     } else if (!isEditable) {
       return <Text style={{textAlign: 'center', padding: "10%",color: 'gray'}}>No bio</Text>;
     } else if (isEditable) {
@@ -134,7 +134,7 @@ const Profile = props => {
           <View
             style={{
               width: '100%',
-              backgroundColor: '#1B8BD8',
+              backgroundColor: '#09C442',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
@@ -148,12 +148,12 @@ const Profile = props => {
                 height: 55,
               }}
               source={{
-                uri: `https://www.gravatar.com/avatar/${userData.emailHash}?d=retro&s=80`,
+                uri: userData.propicURL ? userData.propicURL : `https://www.gravatar.com/avatar/${userData.emailHash}?d=retro&s=80`,
               }}
             />
             <View style={{display: 'flex', flexDirection: 'column'}}>
               <Text style={{fontSize: 18, color: 'white'}}>
-                {userData.fname + ' ' + (userData.lname ? userData.lname : '')}
+                {(userData.fname ? userData.fname : "")+ ' ' + (userData.lname ? userData.lname : '')}
               </Text>
               <Text style={{color: 'white'}}>@{userData.username}</Text>
             </View>

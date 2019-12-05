@@ -71,7 +71,7 @@ const Members = props => {
             :<></>}
         </View>
        
-        <Text h4 style={{paddingLeft: '3%'}}>
+        <Text style={{fontSize: 15,fontWeight: "bold",paddingLeft: '3%'}}>
           Admins
         </Text>
         {admins.length > 0 ? admins.map( admin => 
@@ -83,7 +83,7 @@ const Members = props => {
         />  
         ) : <Text style={{textAlign: "center"}}>No admins</Text>}
         
-        <Text h4 style={{paddingLeft: '3%',marginTop: 10}}>
+        <Text style={{fontSize: 15,fontWeight: "bold",paddingLeft: '3%',marginTop: 10}}>
           Members
         </Text>
           {members.length > 0 ? members.map( member => <MemberItem 
@@ -91,7 +91,7 @@ const Members = props => {
           id={member.userId}
           navigation={props.screenProps.navigation}
           emailHash={member.emailHash}
-          />) : <Text style={{textAlign: "center"}}>No members</Text>}
+          />) : <Text style={{textAlign: "center",color: "gray"}}>No members</Text>}
       </View>
     </View>
   );

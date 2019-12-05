@@ -11,7 +11,7 @@ const MemberItem = props => {
           source={{uri: `https://www.gravatar.com/avatar/${props.emailHash}?d=retro&s=80`}}
         />
             <View>
-            <Text h5 style={{fontWeight: "bold"}} onPress={() => props.navigation.navigate("Profile",{
+            <Text h5 onPress={() => props.navigation.navigate("Profile",{
                 id: props.id
 })}>{props.name}</Text>
             </View>

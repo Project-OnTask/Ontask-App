@@ -5,9 +5,9 @@ import PopupMenu from '../../../components/DotBtnMenu'
 
 const AssigneeItem = props => {
     return (
-        <View style={{display: "flex",flexDirection: "row",height: 25,alignItems: "center"}}>
+        <View style={{display: "flex",flexDirection: "row",height: 35,marginBottom: "2%",alignItems: "center"}}>
              <Image
-          style={{width: 25, height: 25,borderRadius: 100,marginRight: "2%"}}
+          style={{width: 30, height: 30,borderRadius: 100,marginRight: "2%"}}
           source={{uri: `https://www.gravatar.com/avatar/${props.emailHash}?d=retro&s=10`}}
         />
             <View>
