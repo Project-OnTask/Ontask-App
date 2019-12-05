@@ -22,13 +22,7 @@ const Dashboard = props => {
   const [feedItems, setFeedItems] = useState([]);
   const [groups, setGroups] = useState(0);
 
-  function handleBackPress() {
-    BackHandler.exitApp();
-  }
-
   useEffect(() => {
-    //BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-
     props.navigation.setParams({
       headerMode: 'none',
     });
@@ -57,7 +51,7 @@ const Dashboard = props => {
 
         Axios.get('/user/' + res.data.id + '/u_notifications')
           .then(res => {
-            this.setState({feedItems: res.data});
+            setFeedItems({feedItems: res.data});
           })
           .catch(err => console.log(err));
 
