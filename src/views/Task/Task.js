@@ -31,7 +31,7 @@ const Task = props => {
       'chat_' + props.navigation.getParam('id'),
     );
 
-    chatChannel.bind('new_comment', data => updateComments(JSON.parse(data)));
+    chatChannel.bind('new_comment', updateComments);
 
     props.navigation.setParams({
       headerTitle: props.navigation.getParam('name'),
@@ -55,8 +55,8 @@ const Task = props => {
       setComments(res.data),
     );
 
-    Axios.get('/task-asignee/' + props.navigation.getParam('id')).then(res =>
-      setAssignees(res.data),
+    Axios.get('/task-asignee/' + props.navigation.getParam('id')).then(res => {
+      setAssignees(res.data)}
     );
   }, [
     trig,
@@ -95,8 +95,8 @@ const Task = props => {
   }
 
   function updateComments(data) {
-    console.log(data);
-    setComments([...comments, data]);
+    console.log(JSON.parse(data));
+    setComments([...comments, JSON.parse(data)]);
   }
 
   async function addResource() {
@@ -173,7 +173,7 @@ Axios.get('/auth/user/me').then(
               taskId={props.navigation.getParam('id')} />
           </View>
 
-          <View style={{paddingTop: '2%', paddingBottom: '2%'}}>
+          <View style={{paddingTop: '4%', paddingBottom: '4%'}}>
             <Text style={{marginBottom: 10}}>{taskData.description}</Text>
           </View>
 
@@ -234,6 +234,7 @@ Axios.get('/auth/user/me').then(
               {assignees.map(assignee => (
                 <AssigneeItem
                   fname={assignee.fname}
+                  propicURL={assignee.propic}
                   emailHash={assignee.emailHash}
                 />
               ))}
