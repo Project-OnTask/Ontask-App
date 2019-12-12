@@ -11,7 +11,7 @@ const Activity = props => {
   useEffect(() => {
     Axios.get('/groups/' + props.screenProps.groupId + '/activity').then(
       res => {
-        setActivities(res.data);
+        setActivities(res.data.reverse());
         console.log('activities: ', res.data);
       },
     );
@@ -27,12 +27,12 @@ const Activity = props => {
         <Text h4 style={{paddingLeft: '3%'}}>
           Activity
         </Text>
-        {activities.reverse().map( (item,index) => 
-          <ActivityItem 
+        {activities.map( (item,index) => 
+          (<ActivityItem 
           key={index}
           activity={item.description.split('group')[0]+" group"}
           createdAt={item.createdAt}
-        />
+        />)
         )}      
   
       </View>
