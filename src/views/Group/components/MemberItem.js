@@ -17,7 +17,7 @@ const MemberItem = props => {
             </View>
             <View style={{flexGrow: 1}} />
             <PopupMenu 
-        actions={['Revoke access']} 
+        actions={props.actions} 
         onPress={(event,index) => {}}
          />
         </View>

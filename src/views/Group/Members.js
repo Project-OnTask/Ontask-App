@@ -78,6 +78,7 @@ const Members = props => {
         <MemberItem 
           name={admin.fname}
           id={admin.userId}
+          actions={props.screenProps.isAdmin ? ['Remove admin','Remove from group'] : []}
           navigation={props.screenProps.navigation}
           emailHash={admin.emailHash}
         />  
@@ -89,6 +90,7 @@ const Members = props => {
           {members.length > 0 ? members.map( member => <MemberItem 
           name={member.fname}
           id={member.userId}
+          actions={props.screenProps.isAdmin ? ['Make admin','Remove from group'] : []}
           navigation={props.screenProps.navigation}
           emailHash={member.emailHash}
           />) : <Text style={{textAlign: "center",color: "gray"}}>No members</Text>}
