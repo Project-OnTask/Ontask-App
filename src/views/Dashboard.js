@@ -12,7 +12,25 @@ import {Text, List, ListItem} from 'react-native-elements';
 import ProgressCircle from 'react-native-progress-circle';
 import PusherObject from '../utils/PusherObject';
 import Axios from 'axios';
-import {BackHandler} from 'react-native';
+import moment from 'moment';
+import HTML from 'react-native-render-html'
+
+const FeedItem = props => {
+  return (
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '2%',
+        paddingLeft: 0
+      }}>
+      <View style={{marginLeft: "1%"}}>
+        <HTML html={props.description.slice(0,50)+"..."} />
+      </View>
+      <Text h5> {moment(new Date(props.createdAt)).fromNow()}</Text>
+    </View>
+  )
+}
 
 const Dashboard = props => {
   const [totalCount, setTotalCount] = useState(0);
@@ -21,6 +39,10 @@ const Dashboard = props => {
   const [groupCount, setGroupCount] = useState(0);
   const [feedItems, setFeedItems] = useState([]);
   const [groups, setGroups] = useState(0);
+
+  function updateFeed(data) {
+    setFeedItems([...feedItems, JSON.parse(data)]);
+  }
 
   useEffect(() => {
     props.navigation.setParams({
@@ -51,7 +73,7 @@ const Dashboard = props => {
 
         Axios.get('/user/' + res.data.id + '/u_notifications')
           .then(res => {
-            setFeedItems({feedItems: res.data});
+            setFeedItems(res.data);
           })
           .catch(err => console.log(err));
 
@@ -61,7 +83,7 @@ const Dashboard = props => {
             res.data
               .map((group, index) => {
                 const chatChannel = PusherObject.subscribe(
-                  'group_' + group.groupId,
+                  'group_' + group.groupId
                 );
                 chatChannel.bind('new_activity', data => updateFeed);
               })
@@ -69,9 +91,10 @@ const Dashboard = props => {
 
         Axios.get('/user/' + res.data.id + '/u_notifications')
               .then(res => {
+                console.log("un: ",res.data)
                 setFeedItems(res.data);
               })
-              .catch(err => console.log(err));
+              .catch(err => console.log("er: ",err));
           })
           .catch(err => {
             console.log(err);
@@ -79,10 +102,6 @@ const Dashboard = props => {
       })
       .catch(err => console.log(err));
   }, []);
-
-  function updateFeed(data) {
-    setFeedItems([...feedItems, JSON.parse(data)]);
-  }
 
   const styles = StyleSheet.create({
     container: {
