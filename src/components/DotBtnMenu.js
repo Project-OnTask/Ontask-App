@@ -31,7 +31,7 @@ class DotBtnMenu extends Component {
             <TouchableOpacity onPress={this.onPress}>
               <Icon
                 name='more-vert'
-                size={20}
+                size={25}
                 color={this.props.color ? this.props.color : 'grey'}
                 ref={this.onRef} />
             </TouchableOpacity>

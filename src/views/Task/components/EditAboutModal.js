@@ -82,7 +82,7 @@ export default function EditAboutModal(props) {
         onPress={() => {
           setModalVisible(true);
         }}>
-                        <FOIcon name="edit" size={12} style={{paddingTop: '2%'}} />
+                        <FOIcon name="edit" size={16} style={{paddingTop: '2%'}} />
       </TouchableHighlight>
     </View>
   );
